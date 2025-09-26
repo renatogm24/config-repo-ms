@@ -1,0 +1,77 @@
+spring:
+  # R2DBC: Configuración reactiva principal para operaciones CRUD
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/product_db
+    username: product_user
+    password: product_pass
+    pool:
+      initial-size: 5
+      max-size: 15
+      max-acquire-time: 5000ms
+      max-idle-time: 30000ms
+
+  # JDBC: Solo para migraciones Flyway (operaciones síncronas)
+  datasource:
+    url: jdbc:mysql://localhost:3306/product_db
+    username: product_user
+    password: product_pass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 5  # Reducido: solo para Flyway
+      connection-timeout: 20000
+  
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  
+  # Configuración Redis con Lettuce
+  redis:
+    host: localhost
+    port: 6379
+    timeout: 2000ms
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 8
+        min-idle: 2
+        max-wait: 2000ms
+  
+  # Configuración de cache
+  cache:
+    type: redis
+    redis:
+      time-to-live: 300000  # 5 minutos en ms
+      cache-null-values: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Configuración Swagger/OpenAPI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+  info:
+    title: Product Service API
+    description: Microservicio para gestión de productos con MySQL y cache Redis
+    version: 1.0.0
+
+# Configuración de microservicios externos
+microservices:
+  catalog:
+    base-url: http://localhost:8082
+  inventory:
+    base-url: http://localhost:8083
+
+logging:
+  level:
+    com.tecylab.product: INFO
+    org.springframework.web: DEBUG
+    org.springframework.web.client: DEBUG  # Para debugging de RestClient
