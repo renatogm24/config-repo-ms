@@ -66,9 +66,9 @@ springdoc:
 # Configuración de microservicios externos
 microservices:
   catalog:
-    base-url: http://localhost:8101
+    base-url: http://localhost:8101/api/catalog
   inventory:
-    base-url: http://localhost:8201
+    base-url: http://localhost:8201/api/inventory
 
 logging:
   level:
