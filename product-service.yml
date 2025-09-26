@@ -72,6 +72,19 @@ microservices:
 
 logging:
   level:
+    # Feign clients logging - IMPORTANTE para ver requests/responses
+    com.tecylab.product.feign: DEBUG
+    # Configuración personalizada de Feign
+    com.tecylab.product.config.FeignConfig: DEBUG
+    # Root logger de Feign
+    feign: DEBUG
+    # HTTP requests completos
+    feign.Logger: DEBUG
+    # Nuestro servicio
     com.tecylab.product: INFO
+    # Spring Cloud LoadBalancer
+    org.springframework.cloud.loadbalancer: DEBUG
+    # Para ver la resolución de URLs
+    org.springframework.cloud.openfeign: DEBUG
     org.springframework.web: DEBUG
     org.springframework.web.client: DEBUG  # Para debugging de RestClient
